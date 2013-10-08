@@ -70,6 +70,7 @@ angular.module('portfolio',[])
 	
 			setFeed : function(feed){
 				config.feed = feed;
+				console.log("Portfolio feed is "+feed);
 			},
 
 			$get: function(stockQuote) {
@@ -95,7 +96,7 @@ angular.module('portfolio',[])
 		}
 	})
 	.config(function(portfolioDataProvider){
-
+		portfolioDataProvider.setFeed("Q");
 
 	})
 	.controller('PortfolioCtrl', function($scope, portfolioData){
