@@ -13,12 +13,19 @@ angular.module('portfolio',[]).controller('PortfolioCtrl', function($scope){
 	$scope.addToPortfolio = function(stockName, amount, positions){
 		var stockQuote = new StockQuote();
 		var price = stockQuote.getPrice(stockName); 
-		//add code here
+		positions.push({
+			name:stockName, 
+			amount:amount,
+			price: price,
+			total: amount*price
+		});
 	};
 
 	$scope.totalValue = function(positions) {
 		var total = 0;
-		//add code here
+		for(var k=0; k<positions.length; k++){
+			total = total + positions[k].total;
+		}
 		return total;
 	}
 });

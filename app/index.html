@@ -1,14 +1,38 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="portfolio">
 <head>
   <meta charset="utf-8">
   <title>My HTML File</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <script src="lib/angular/angular.js"></script>
+  <script src="js/controllers.js"></script>
   </head>
 <body>
 
+<div ng-controller="PortfolioCtrl">
+
+<input ng-model="model.stockName"> stock</input>
+<br/>
+<input ng-model="model.amount"> quantity</input>
+<button ng-click="addToPortfolio(model.stockName,model.amount, model.positions)">Add to portfolio</button>
+
+<table class="table  table-bordered">
+	<tr><td></td><td>Name</td><td>Amount</td><td>Price</td><td>Total</td></tr>
+	<tr ng-repeat="position in model.positions">
+		<td> <button ng-click="model.positions.splice($index,1)">Remove</button></td>
+		<td> {{position.name }}</td>
+		<td>{{position.amount}}</td>
+		<td>{{position.price |  number:2}}</td>
+		<td>{{position.total |  number:2}}</td>
+	</tr>
+	<tr><td></td><td></td><td></td><td>Total Portfolio Value</td><td>{{totalValue(model.positions) | number:2}}</td></tr>
+	
+</table>
+	
+</div>
+
+  
    
    
   
