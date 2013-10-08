@@ -62,42 +62,42 @@ angular.module('portfolio',[])
 	.value('stockQuote', new StockQuote())	
 	.service('portfolioService', PortfolioService)
 	.factory('portfolioFactory', PortfolioFactory)
-	.provider('portfolioData', function(stockQuote){
+	.provider('portfolioData', function(){
 		    var config ={feed:""};
 			var positions = [{name:'PTTE', amount:1000, price:168, total:168000}];
-		return {
+		return { 
 			
 	
 			setFeed : function(feed){
 				config.feed = feed;
-			}
+			},
 
-			$get: function()
-			return {
-				addToPortfolio : function(stockName, amount, positions){
-					var price = stockQuote.getPrice(stockName); 
-					positions.push({
-						name:stockName, 
-						amount:amount,
-						price: price,
-						total: amount*price});
-				},
-				totalValue 		: function(positions) {
-					var total = 0;
-					for(var k=0; k<positions.length; k++){
-						total = total + positions[k].total;
+			$get: function(stockQuote) {
+					return {
+						addToPortfolio : function(stockName, amount, positions){
+							var price = stockQuote.getPrice(stockName); 
+							positions.push({
+								name:stockName, 
+								amount:amount,
+								price: price,
+								total: amount*price});
+						},
+						totalValue 		: function(positions) {
+							var total = 0;
+							for(var k=0; k<positions.length; k++){
+								total = total + positions[k].total;
+							}
+							return total;
+						},
+						positions : positions
 					}
-					return total;
-				},
-				positions : positions
-
 			}
 		}
 	})
 	.config(function(portfolioDataProvider){
 
 
-	}).
+	})
 	.controller('PortfolioCtrl', function($scope, portfolioData){
 		$scope.model ={
 			stockName:'',
@@ -105,10 +105,10 @@ angular.module('portfolio',[])
 			positions:[]
 		};
 
-		$scope.model.positions = portfolioFactory.positions;
+		$scope.model.positions = portfolioData.positions;
 		//console.log(portfolioService.positions);
 
-		$scope.addToPortfolio = portfolioFactory.addToPortfolio;
-		$scope.totalValue = portfolioFactory.totalValue;
+		$scope.addToPortfolio = portfolioData.addToPortfolio;
+		$scope.totalValue = portfolioData.totalValue;
 	})
 
