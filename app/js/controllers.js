@@ -33,19 +33,44 @@ var PortfolioService = function (stockQuote) {
 		};
 }
 
+var PortfolioFactory = function (stockQuote) {
+	var positions = [{name:'PTTE', amount:1000, price:168, total:168000}];
+	var feed = "dummy";
+	return {
+		addToPortfolio : function(stockName, amount, positions){
+							var price = stockQuote.getPrice(stockName); 
+							positions.push({
+								name:stockName, 
+								amount:amount,
+								price: price,
+								total: amount*price});
+							},
+		totalValue 		: function(positions) {
+							var total = 0;
+							for(var k=0; k<positions.length; k++){
+								total = total + positions[k].total;
+							}
+							return total;
+						},
+		positions : positions
+
+		}
+}
+
 angular.module('portfolio',[])
 	.value('stockQuote', new StockQuote())	
 	.service('portfolioService', PortfolioService)
-	.controller('PortfolioCtrl', function($scope, portfolioService){
+	.factory('portfolioFactory', PortfolioFactory)
+	.controller('PortfolioCtrl', function($scope, portfolioFactory){
 		$scope.model ={
 			stockName:'',
 			amount:'',
 			positions:[]
 		};
 
-		$scope.model.positions = portfolioService.positions;
+		$scope.model.positions = portfolioFactory.positions;
 		//console.log(portfolioService.positions);
 
-		$scope.addToPortfolio = portfolioService.addToPortfolio;
-		$scope.totalValue = portfolioService.totalValue;
+		$scope.addToPortfolio = portfolioFactory.addToPortfolio;
+		$scope.totalValue = portfolioFactory.totalValue;
 	});
