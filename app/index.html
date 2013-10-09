@@ -1,13 +1,32 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="teambookManager">
 <head>
   <meta charset="utf-8">
   <title>My HTML File</title>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <script src="lib/angular/angular.js"></script>
+  <script src="js/controllers.js"></script>
+
   </head>
 <body>
+	<div ng-controller="teambookCtrl">
+	
+		<h1>Where are directives in this page? How many?</h1>
+		<h2>4 or 5 or 6?</h2>
+		<input ng-model="teambook.newMemberName"></input> name <br/>
+		<button ng-click="teambook.addName(teambook.newMemberName)">Add name</button>
+
+		<ul>
+			<li ng-repeat="member in teambook.members"> {{member.name}}</li>
+			
+		</ul>
+		
+
+	</div>
+
+
+
 
    
    
